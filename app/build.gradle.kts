@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.franks.agenttemi"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.franks.agenttemi"

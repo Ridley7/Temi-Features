@@ -11,37 +11,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.agenttemi.ui.screens.EnvironmentScreen
 import com.franks.agenttemi.ui.theme.AgentTemiTheme
+import com.robotemi.sdk.listeners.OnRobotReadyListener
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), OnRobotReadyListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             AgentTemiTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                EnvironmentScreen(
+                    temperature = 21.5f,
+                    methane = 450f
+                )
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AgentTemiTheme {
-        Greeting("Android")
+    override fun onRobotReady(isReady: Boolean) {
+        TODO("Not yet implemented")
     }
 }
+

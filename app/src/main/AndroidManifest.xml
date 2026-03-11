@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AgentTemi"
         tools:targetApi="31">
+
+        <!-- Adding this meta-data is required in order to display this app in temi's launcher app -->
+        <meta-data
+            android:name="com.robotemi.sdk.metadata.SKILL"
+            android:value="@string/app_name" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

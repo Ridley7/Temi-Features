@@ -22,9 +22,11 @@ import com.franks.agenttemi.data.datasource.MockEnvironmentDataSource
 import com.franks.agenttemi.data.repository.EnvironmentRepositoryImplementation
 import com.franks.agenttemi.ui.theme.AgentTemiTheme
 import com.robotemi.sdk.listeners.OnRobotReadyListener
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity(), OnRobotReadyListener {
 
+    /*
     private val viewModel by lazy{
 
         val dataSource = MockEnvironmentDataSource()
@@ -38,6 +40,8 @@ class MainActivity : ComponentActivity(), OnRobotReadyListener {
             recommendationUseCase
         );
     }
+    */
+    private val viewModel : EnvironmentViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,10 +51,10 @@ class MainActivity : ComponentActivity(), OnRobotReadyListener {
 
                 val environment by viewModel.environment.collectAsState()
 
-                environment?.let { data ->
+                environment?.let {
                     EnvironmentScreen(
-                        temperature = data.temperature,
-                        methane = data.methane
+                        temperature = it.temperature,
+                        methane = it.methane
                     )
                 }
             }

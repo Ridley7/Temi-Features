@@ -4,6 +4,7 @@ import android.app.Application
 import environmentModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import voiceModule
 
 class AgentTemiApplication : Application(){
     override fun onCreate() {
@@ -11,7 +12,8 @@ class AgentTemiApplication : Application(){
         startKoin {
             androidContext(this@AgentTemiApplication)
             modules(
-                environmentModule
+                environmentModule,
+                voiceModule
             )
         }
     }

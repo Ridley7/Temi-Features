@@ -1,8 +1,15 @@
 
 import com.franks.agenttemi.data.datasource.MockEnvironmentDataSource
 import com.franks.agenttemi.data.repository.EnvironmentRepositoryImplementation
+import com.robotemi.sdk.Robot
 import org.koin.dsl.module
 import org.koin.core.module.dsl.viewModel
+
+
+val voiceModule = module{
+    single { Robot.getInstance()}
+    single<VoiceManager> {TemiVoiceManager(get())}
+}
 
 val environmentModule = module {
 
@@ -19,8 +26,9 @@ val environmentModule = module {
     //ViewModel
     viewModel{
         EnvironmentViewModel(
-            get(),
-            get()
+            observeEnvironmentUseCase = get(),
+            recommendationUseCase = get(),
+            voiceManager =  get()
         )
     }
 }

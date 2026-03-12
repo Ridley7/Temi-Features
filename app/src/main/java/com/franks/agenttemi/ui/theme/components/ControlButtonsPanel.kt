@@ -12,11 +12,12 @@ import com.franks.agenttemi.domain.model.EnvironmentData
 @Composable
 fun ControlButtonsPanel(
     environment: EnvironmentData,
-    onRecommendation: () -> String
+    onRecommendation: () -> String,
+    onSpeakEnvironment: () -> Unit
 ){
     Column{
         Button(
-            onClick = { /* voz */},
+            onClick = { onSpeakEnvironment() },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Mi entorno")

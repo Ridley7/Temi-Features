@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.stateIn
 
 class EnvironmentViewModel(
     private val observeEnvironmentUseCase: ObserveEnvironmentUseCase,
-    private val recommendationUseCase: GetEnvironmentRecommendationUseCase
+    private val recommendationUseCase: GetEnvironmentRecommendationUseCase,
+    private val voiceManager: VoiceManager
 ) : ViewModel() {
 
     val environment = observeEnvironmentUseCase()
@@ -41,5 +42,17 @@ class EnvironmentViewModel(
         }
 
     }
+
+    fun speakEnviroment(data: EnvironmentData){
+        val message = """
+        La temperatura actual es ${data.temperature} grados.
+        El nivel de metano es ${data.methane}.
+    """.trimIndent()
+
+        _avatarState.value = AvatarState.TALKING
+
+        voiceManager.speak(message)
+    }
+
 }
 

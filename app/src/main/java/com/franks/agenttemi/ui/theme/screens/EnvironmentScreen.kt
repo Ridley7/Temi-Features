@@ -51,6 +51,9 @@ fun EnvironmentScreen(
                     environment = data,
                     onRecommendation = {
                         viewModel.getRecommendation(data)
+                    },
+                    onSpeakEnvironment = {
+                        viewModel.speakEnviroment(data)
                     }
                 )
 

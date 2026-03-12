@@ -8,14 +8,22 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.franks.agenttemi.R
+import com.franks.agenttemi.domain.model.AvatarState
 
 @Composable
 fun AvatarPanel(
+    state: AvatarState,
     modifier: Modifier = Modifier
 ){
+    val animationRes = when(state){
+        AvatarState.IDLE -> R.raw.idle
+        AvatarState.ALERT -> R.raw.alert
+        AvatarState.TALKING -> R.raw.alert
+        AvatarState.THINKING -> R.raw.speaker
+    }
 
     val composition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(R.raw.speaker)
+        LottieCompositionSpec.RawRes(animationRes)
     )
 
     val progress by animateLottieCompositionAsState(

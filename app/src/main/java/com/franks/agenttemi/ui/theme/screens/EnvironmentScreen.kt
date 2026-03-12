@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.franks.agenttemi.domain.model.AvatarState
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -19,6 +20,7 @@ fun EnvironmentScreen(
 ) {
 
     val environment by viewModel.environment.collectAsState()
+    val avatarState by viewModel.avatarState.collectAsState()
 
     environment?.let { data ->
         Row(
@@ -29,6 +31,7 @@ fun EnvironmentScreen(
 
             // Zona donde irá el avatar (3/4 pantalla aprox)
             AvatarPanel(
+                state = avatarState,
                 modifier = Modifier
                     .weight(3f)
                     .fillMaxHeight()

@@ -12,7 +12,7 @@ class EnvironmentViewModel(
     val environment = observeEnvironmentUseCase()
         .stateIn(
             viewModelScope,
-            SharingStarted.WhileSubscribed(),
+            SharingStarted.WhileSubscribed(5000),
             null
         )
 

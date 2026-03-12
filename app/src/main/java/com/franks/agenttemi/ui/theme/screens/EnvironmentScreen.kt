@@ -1,92 +1,67 @@
 package com.example.agenttemi.ui.screens
 
+import AvatarPanel
+import ControlButtonsPanel
+import EnvironmentInfoPanel
+import EnvironmentViewModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun EnvironmentScreen(
-    temperature: Float,
-    methane: Float,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: EnvironmentViewModel = koinViewModel()
 ) {
 
-    Row(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(24.dp)
-    ) {
+    val environment by viewModel.environment.collectAsState()
 
-        // Zona donde irá el avatar (3/4 pantalla aprox)
-        Box(
-            modifier = Modifier
-                .weight(3f)
-                .fillMaxHeight(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Avatar",
-                fontSize = 28.sp
-            )
-        }
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        // Panel derecho con datos ambientales
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight(),
-            verticalArrangement = Arrangement.Top
+    environment?.let { data ->
+        Row(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
 
-            Text(
-                text = "Mi entorno",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold
+            // Zona donde irá el avatar (3/4 pantalla aprox)
+            AvatarPanel(
+                modifier = Modifier
+                    .weight(3f)
+                    .fillMaxHeight()
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.width(16.dp))
 
-            EnvironmentValue(
-                label = "Temperatura",
-                value = "$temperature °C"
-            )
+            // Panel derecho con datos ambientales
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                //verticalArrangement = Arrangement.Top
+            ) {
 
-            Spacer(modifier = Modifier.height(16.dp))
+                ControlButtonsPanel(
+                    environment = data,
+                    onRecommendation = {
+                        viewModel.getRecommendation(data)
+                    }
+                )
 
-            EnvironmentValue(
-                label = "Metano",
-                value = "$methane ppm"
-            )
+                Spacer(modifier = Modifier.height(24.dp))
+
+                EnvironmentInfoPanel(
+                    environment = data
+                )
+            }
         }
-    }
-}
-
-@Composable
-fun EnvironmentValue(
-    label: String,
-    value: String
-) {
-
-    Column {
-
-        Text(
-            text = label,
-            fontSize = 16.sp
-        )
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        Text(
-            text = value,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
     }
 }

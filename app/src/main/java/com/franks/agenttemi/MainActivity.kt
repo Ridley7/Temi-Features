@@ -26,37 +26,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity(), OnRobotReadyListener {
 
-    /*
-    private val viewModel by lazy{
-
-        val dataSource = MockEnvironmentDataSource()
-        val repository = EnvironmentRepositoryImplementation(dataSource);
-
-        val observeEnvironmentUseCase = ObserveEnvironmentUseCase(repository);
-        val recommendationUseCase = GetEnvironmentRecommendationUseCase()
-
-        EnvironmentViewModel(
-            observeEnvironmentUseCase,
-            recommendationUseCase
-        );
-    }
-    */
-    private val viewModel : EnvironmentViewModel by viewModel()
+    //private val viewModel : EnvironmentViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             AgentTemiTheme {
-
-                val environment by viewModel.environment.collectAsState()
-
-                environment?.let {
-                    EnvironmentScreen(
-                        temperature = it.temperature,
-                        methane = it.methane
-                    )
-                }
+                    EnvironmentScreen()
             }
         }
     }

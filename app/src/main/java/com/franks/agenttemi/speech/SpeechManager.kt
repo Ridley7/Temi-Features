@@ -1,43 +1,50 @@
 import com.franks.agenttemi.domain.model.enums.SpeechPriority
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class SpeechManager (
     private val voiceManager: VoiceManager
 ){
-    private val queue = ArrayDeque<SpeechMessage>()
-    private var speaking = false;
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private val highPriorityChannel = Channel<SpeechMessage>(Channel.UNLIMITED)
+    private val normalChannel = Channel<SpeechMessage>(Channel.UNLIMITED)
+
+    init {
+        startWorker()
+    }
+
 
     fun speak(message: SpeechMessage){
-        if(!speaking){
-            //Procesamos el mensaje metiendolo en la cola
-            process(message)
-        }else{
+        scope.launch {
+
             if(message.priority == SpeechPriority.USER_REQUEST){
-                queue.addFirst(message)
-            } else {
-                queue.addLast(message)
+                highPriorityChannel.send(message)
+            }else{
+                normalChannel.send(message)
             }
+
         }
     }
 
-    fun process(message: SpeechMessage){
+    private fun startWorker(){
+        scope.launch {
 
-        speaking = true;
-        voiceManager.speak(message.text)
-
-        //Estimación simple de la duración
-        GlobalScope.launch {
-            delay(estimateSpeechDuration(message.text))
-            speaking = false
-
-            queue.removeFirstOrNull()?.let {
-                process(it)
+            while(isActive){
+                val message = highPriorityChannel.tryReceive().getOrNull() ?: normalChannel.receive()
+                voiceManager.speak(message.text)
+                delay(estimateSpeechDuration(message.text))
             }
-        }
 
+        }
     }
+
 
     private fun estimateSpeechDuration(text: String) : Long{
          val words = text.split(" ").size

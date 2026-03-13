@@ -1,6 +1,7 @@
 package com.franks.agenttemi
 
 import android.app.Application
+import attentionModule
 import avatarStateModule
 import environmentModule
 import org.koin.android.ext.koin.androidContext
@@ -17,7 +18,8 @@ class AgentTemiApplication : Application(){
                 environmentModule,
                 voiceModule,
                 speechModule,
-                avatarStateModule
+                avatarStateModule,
+                attentionModule
             )
         }
     }

@@ -1,3 +1,4 @@
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.franks.agenttemi.domain.model.enums.AvatarState
@@ -11,7 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 class EnvironmentViewModel(
     private val observeEnvironmentUseCase: ObserveEnvironmentUseCase,
     private val recommendationUseCase: GetEnvironmentRecommendationUseCase,
-    private val speechManager: SpeechManager,
+    private val attentionManager: AttentionManager,
     private val avatarManager: AvatarStateManager
 ) : ViewModel() {
 
@@ -45,23 +46,24 @@ class EnvironmentViewModel(
         El nivel de metano es ${data.methane}.
     """.trimIndent()
 
-        speechManager.speak(
-            SpeechMessage(
-                text = message,
-                priority = SpeechPriority.INFO
+        attentionManager.requestAttention(
+            AttentionEvent(
+                source = AttentionSource.SENSOR,
+                message = message,
+                priority = 3
             )
         )
     }
 
     fun testVoice(){
-        speechManager.speak(
-            SpeechMessage(
-                text = "Hola, soy tu agente ambiental",
-                priority = SpeechPriority.INFO
+        attentionManager.requestAttention(
+            AttentionEvent(
+                source = AttentionSource.USER,
+                message = "Hola, soy tu agente ambiental",
+                priority = 10
             )
         )
     }
-
 
 }
 

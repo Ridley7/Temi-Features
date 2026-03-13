@@ -8,6 +8,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.selects.select
 
 class SpeechManager (
     private val voiceManager: VoiceManager,
@@ -17,6 +18,7 @@ class SpeechManager (
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private val highPriorityChannel = Channel<SpeechMessage>(Channel.UNLIMITED)
     private val normalChannel = Channel<SpeechMessage>(Channel.UNLIMITED)
+    var onSpeechCompleted: (() -> Unit)? = null
 
     init {
         startWorker()
@@ -39,11 +41,23 @@ class SpeechManager (
         scope.launch {
 
             while(isActive){
-                val message = highPriorityChannel.tryReceive().getOrNull() ?: normalChannel.receive()
+                //val message = highPriorityChannel.tryReceive().getOrNull() ?: normalChannel.receive()
+
+                val message = select<SpeechMessage> {
+                    highPriorityChannel.onReceive{
+                        it
+                    }
+
+                    normalChannel.onReceive{
+                        it
+                    }
+                }
+
                 avatarStateManager.setState(AvatarState.TALKING)
                 voiceManager.speak(message.text)
                 delay(estimateSpeechDuration(message.text))
                 avatarStateManager.setState(AvatarState.IDLE)
+                onSpeechCompleted?.invoke()
             }
 
         }

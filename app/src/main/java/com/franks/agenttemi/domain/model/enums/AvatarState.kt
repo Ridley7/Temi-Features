@@ -1,4 +1,4 @@
-package com.franks.agenttemi.domain.model
+package com.franks.agenttemi.domain.model.enums
 
 enum class AvatarState{
     IDLE,

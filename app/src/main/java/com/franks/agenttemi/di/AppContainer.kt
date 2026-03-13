@@ -6,10 +6,19 @@ import org.koin.dsl.module
 import org.koin.core.module.dsl.viewModel
 
 
-val voiceModule = module{
+val voiceModule = module {
+    /*
     single { Robot.getInstance()}
     single<VoiceManager> {TemiVoiceManager(get())}
+     */
+
+    single <VoiceManager> { AndroidVoiceManager (get())}
 }
+
+val speechModule = module {
+    single { SpeechManager(get())}
+}
+
 
 val environmentModule = module {
 
@@ -28,7 +37,7 @@ val environmentModule = module {
         EnvironmentViewModel(
             observeEnvironmentUseCase = get(),
             recommendationUseCase = get(),
-            voiceManager =  get()
+            speechManager = get()
         )
     }
 }

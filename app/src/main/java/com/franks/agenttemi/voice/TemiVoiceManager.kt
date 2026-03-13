@@ -15,5 +15,7 @@ class TemiVoiceManager(
         robot.speak(ttsRequest)
     }
 
-
+    override fun shutdown() {
+        TODO("Not yet implemented")
+    }
 }

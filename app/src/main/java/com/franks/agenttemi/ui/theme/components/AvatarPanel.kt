@@ -8,7 +8,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.franks.agenttemi.R
-import com.franks.agenttemi.domain.model.AvatarState
+import com.franks.agenttemi.domain.model.enums.AvatarState
 
 @Composable
 fun AvatarPanel(

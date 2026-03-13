@@ -1,7 +1,8 @@
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.franks.agenttemi.domain.model.AvatarState
+import com.franks.agenttemi.domain.model.enums.AvatarState
 import com.franks.agenttemi.domain.model.EnvironmentData
+import com.franks.agenttemi.domain.model.enums.SpeechPriority
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.stateIn
 class EnvironmentViewModel(
     private val observeEnvironmentUseCase: ObserveEnvironmentUseCase,
     private val recommendationUseCase: GetEnvironmentRecommendationUseCase,
-    private val voiceManager: VoiceManager
+    private val speechManager: SpeechManager
 ) : ViewModel() {
 
     val environment = observeEnvironmentUseCase()
@@ -51,8 +52,25 @@ class EnvironmentViewModel(
 
         _avatarState.value = AvatarState.TALKING
 
-        voiceManager.speak(message)
+        //voiceManager.speak(message)
+        speechManager.speak(
+            SpeechMessage(
+                text = message,
+                priority = SpeechPriority.INFO
+            )
+        )
     }
+
+    fun testVoice(){
+        //voiceManager.speak("Hola, soy tu agente ambiental")
+        speechManager.speak(
+            SpeechMessage(
+                text = "Hola, soy tu agente ambiental",
+                priority = SpeechPriority.INFO
+            )
+        )
+    }
+
 
 }
 

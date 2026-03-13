@@ -4,6 +4,7 @@ import android.app.Application
 import environmentModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import speechModule
 import voiceModule
 
 class AgentTemiApplication : Application(){
@@ -13,7 +14,8 @@ class AgentTemiApplication : Application(){
             androidContext(this@AgentTemiApplication)
             modules(
                 environmentModule,
-                voiceModule
+                voiceModule,
+                speechModule
             )
         }
     }

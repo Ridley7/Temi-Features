@@ -11,9 +11,11 @@ import kotlinx.coroutines.flow.stateIn
 class EnvironmentViewModel(
     private val observeEnvironmentUseCase: ObserveEnvironmentUseCase,
     private val recommendationUseCase: GetEnvironmentRecommendationUseCase,
-    private val speechManager: SpeechManager
+    private val speechManager: SpeechManager,
+    private val avatarManager: AvatarStateManager
 ) : ViewModel() {
 
+    val avatarState : StateFlow<AvatarState> = avatarManager.state
     val environment = observeEnvironmentUseCase()
         .stateIn(
             viewModelScope,
@@ -21,25 +23,18 @@ class EnvironmentViewModel(
             null
         )
 
-    private val _avatarState = MutableStateFlow(AvatarState.IDLE)
-    val avatarState: StateFlow<AvatarState> = _avatarState
 
     fun getRecommendation(data: EnvironmentData): String {
-        _avatarState.value = AvatarState.THINKING
-
         val recommendation = recommendationUseCase.execute(data)
-
-        _avatarState.value = AvatarState.TALKING
-
         return recommendation
     }
 
     fun checkEnvironment(data: EnvironmentData){
 
         if(data.methane > 2000){
-            _avatarState.value = AvatarState.ALERT
+            avatarManager.setState(AvatarState.ALERT)
         }else{
-            _avatarState.value = AvatarState.IDLE
+            avatarManager.setState(AvatarState.IDLE)
         }
 
     }
@@ -50,9 +45,6 @@ class EnvironmentViewModel(
         El nivel de metano es ${data.methane}.
     """.trimIndent()
 
-        _avatarState.value = AvatarState.TALKING
-
-        //voiceManager.speak(message)
         speechManager.speak(
             SpeechMessage(
                 text = message,
@@ -62,7 +54,6 @@ class EnvironmentViewModel(
     }
 
     fun testVoice(){
-        //voiceManager.speak("Hola, soy tu agente ambiental")
         speechManager.speak(
             SpeechMessage(
                 text = "Hola, soy tu agente ambiental",

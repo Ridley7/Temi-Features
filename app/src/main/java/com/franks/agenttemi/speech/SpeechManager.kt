@@ -1,3 +1,4 @@
+import com.franks.agenttemi.domain.model.enums.AvatarState
 import com.franks.agenttemi.domain.model.enums.SpeechPriority
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -9,7 +10,8 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class SpeechManager (
-    private val voiceManager: VoiceManager
+    private val voiceManager: VoiceManager,
+    private val avatarStateManager: AvatarStateManager
 ){
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -38,8 +40,10 @@ class SpeechManager (
 
             while(isActive){
                 val message = highPriorityChannel.tryReceive().getOrNull() ?: normalChannel.receive()
+                avatarStateManager.setState(AvatarState.TALKING)
                 voiceManager.speak(message.text)
                 delay(estimateSpeechDuration(message.text))
+                avatarStateManager.setState(AvatarState.IDLE)
             }
 
         }

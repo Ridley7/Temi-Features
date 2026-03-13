@@ -5,6 +5,9 @@ import com.robotemi.sdk.Robot
 import org.koin.dsl.module
 import org.koin.core.module.dsl.viewModel
 
+val avatarStateModule = module {
+    single { AvatarStateManager() }
+}
 
 val voiceModule = module {
     /*
@@ -16,7 +19,7 @@ val voiceModule = module {
 }
 
 val speechModule = module {
-    single { SpeechManager(get())}
+    single { SpeechManager(get(), get())}
 }
 
 
@@ -37,7 +40,8 @@ val environmentModule = module {
         EnvironmentViewModel(
             observeEnvironmentUseCase = get(),
             recommendationUseCase = get(),
-            speechManager = get()
+            speechManager = get(),
+            avatarManager = get()
         )
     }
 }

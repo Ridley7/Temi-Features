@@ -1,8 +1,11 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
+
 
 android {
     namespace = "com.franks.agenttemi"
@@ -16,6 +19,24 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        //val apiKey: String = project.findProperty("API_KEY") as String? ?: "NO-API-KEY"
+
+        val localProperties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+
+        if (localPropertiesFile.exists()) {
+            localProperties.load(localPropertiesFile.inputStream())
+        }
+
+        val apiKey = localProperties.getProperty("API_KEY") ?: "NO-API-KEY"
+
+        buildConfigField(
+            "String",
+            "API_KEY",
+            "\"$apiKey\""
+        )
+
     }
 
     buildTypes {
@@ -36,6 +57,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -66,4 +88,8 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.koin.compose.viewmodel)
     implementation(libs.lottie.compose)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp.logging)
+
 }

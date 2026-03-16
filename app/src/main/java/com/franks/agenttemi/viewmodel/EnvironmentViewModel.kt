@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class EnvironmentViewModel(
     private val observeEnvironmentUseCase: ObserveEnvironmentUseCase,
@@ -25,21 +26,23 @@ class EnvironmentViewModel(
         )
 
 
-    fun getRecommendation(data: EnvironmentData): String {
-        val recommendation = recommendationUseCase.execute(data)
-        return recommendation
-    }
+    fun getRecommendation(data: EnvironmentData) {
 
-    fun checkEnvironment(data: EnvironmentData){
+        viewModelScope.launch {
+            val recommendation = recommendationUseCase.execute(data)
 
-        if(data.methane > 2000){
-            avatarManager.setState(AvatarState.ALERT)
-        }else{
-            avatarManager.setState(AvatarState.IDLE)
+            attentionManager.requestAttention(
+                AttentionEvent(
+                    source = AttentionSource.SYSTEM,
+                    message = recommendation,
+                    priority = 5
+                )
+            )
         }
 
     }
 
+    //Boton mi entorno
     fun speakEnviroment(data: EnvironmentData){
         val message = """
         La temperatura actual es ${data.temperature} grados.
@@ -48,22 +51,11 @@ class EnvironmentViewModel(
 
         attentionManager.requestAttention(
             AttentionEvent(
-                source = AttentionSource.SENSOR,
+                source = AttentionSource.SYSTEM,
                 message = message,
-                priority = 3
+                priority = 5
             )
         )
     }
-
-    fun testVoice(){
-        attentionManager.requestAttention(
-            AttentionEvent(
-                source = AttentionSource.USER,
-                message = "Hola, soy tu agente ambiental",
-                priority = 10
-            )
-        )
-    }
-
 }
 

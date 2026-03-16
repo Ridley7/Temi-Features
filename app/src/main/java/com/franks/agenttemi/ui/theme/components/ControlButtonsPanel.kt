@@ -12,7 +12,7 @@ import com.franks.agenttemi.domain.model.EnvironmentData
 @Composable
 fun ControlButtonsPanel(
     environment: EnvironmentData,
-    onRecommendation: () -> String,
+    onRecommendation: () -> Unit,
     onSpeakEnvironment: () -> Unit
 ){
     Column{

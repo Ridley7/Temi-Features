@@ -1,5 +1,6 @@
 package com.franks.agenttemi
 
+import aiModule
 import android.app.Application
 import attentionModule
 import avatarStateModule
@@ -19,7 +20,8 @@ class AgentTemiApplication : Application(){
                 voiceModule,
                 speechModule,
                 avatarStateModule,
-                attentionModule
+                attentionModule,
+                aiModule
             )
         }
     }

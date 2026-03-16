@@ -2,7 +2,6 @@ import com.franks.agenttemi.domain.model.enums.AvatarState
 import com.franks.agenttemi.domain.model.enums.SpeechPriority
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay

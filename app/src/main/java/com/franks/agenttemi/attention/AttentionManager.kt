@@ -32,8 +32,6 @@ class AttentionManager (
 
     private fun speak(event: AttentionEvent){
 
-        Log.d("FLAG", "LLamando al speechManager")
-
         speechManager.speak(
             SpeechMessage(
                 text = event.message,

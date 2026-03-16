@@ -1,5 +1,6 @@
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -20,9 +21,11 @@ fun SensorItem(
         Row (
             modifier = Modifier
                 .padding(12.dp),
+
             horizontalArrangement = Arrangement.SpaceBetween
         ){
             Text(label)
+
             Text(
                 value,
                 fontWeight = FontWeight.Bold

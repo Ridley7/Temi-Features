@@ -53,8 +53,7 @@ fun EnvironmentScreen(
                         viewModel.getRecommendation(data)
                     },
                     onSpeakEnvironment = {
-                        //viewModel.speakEnviroment(data)
-                        viewModel.testVoice()
+                        viewModel.speakEnviroment(data)
                     }
                 )
 

@@ -1,22 +1,27 @@
+import android.util.Log
 import com.franks.agenttemi.domain.model.EnvironmentData
+import retrofit2.HttpException
 
-class GetEnvironmentRecommendationUseCase {
+class GetEnvironmentRecommendationUseCase(
+    private val aiRepository: AIRepository
+) {
 
-    fun execute(data: EnvironmentData): String {
+    suspend fun execute(data: EnvironmentData): String {
 
-        return when {
+        return try {
+            aiRepository.getRecommendation(
+                data.temperature,
+                data.methane
+            )
+        } catch (e: HttpException){
 
-            data.temperature < 18 ->
-                "La temperatura es baja, se recomienda encender la calefacción"
+            Log.e("OpenAI", "Error: ${e.code()} ${e.message()}")
 
-            data.temperature > 26 ->
-                "La temperatura es alta, se recomienda ventilar"
+            when(e.code()){
+                429 -> return "Has hecho demasiadas consultas"
+                else -> return "Error consultando a la IA"
+            }
 
-            data.methane > 800 ->
-                "Los niveles de metano son altos, se recomienda ventilar"
-
-            else ->
-                "Las condiciones ambientales son adecuadas"
         }
 
     }

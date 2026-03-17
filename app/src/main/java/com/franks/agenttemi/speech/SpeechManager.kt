@@ -1,3 +1,4 @@
+import android.util.Log
 import com.franks.agenttemi.domain.model.enums.AvatarState
 import com.franks.agenttemi.domain.model.enums.SpeechPriority
 import kotlinx.coroutines.CoroutineScope
@@ -40,8 +41,6 @@ class SpeechManager (
         scope.launch {
 
             while(isActive){
-                //val message = highPriorityChannel.tryReceive().getOrNull() ?: normalChannel.receive()
-
                 val message = select<SpeechMessage> {
                     highPriorityChannel.onReceive{
                         it
@@ -52,11 +51,12 @@ class SpeechManager (
                     }
                 }
 
-                avatarStateManager.setState(AvatarState.TALKING)
+                //avatarStateManager.setState(AvatarState.TALKING)
                 voiceManager.speak(message.text)
                 delay(estimateSpeechDuration(message.text))
                 avatarStateManager.setState(AvatarState.IDLE)
                 onSpeechCompleted?.invoke()
+                Log.e("OpenIA Speech", "Aqui")
             }
 
         }

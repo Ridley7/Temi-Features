@@ -34,6 +34,8 @@ class EnvironmentViewModel(
         viewModelScope.launch {
             val recommendation = recommendationUseCase.execute(data)
 
+            Log.e("Flag OpenIA", recommendation.severity.toString())
+
             //Avatar segun la severidad
             when(recommendation.severity){
                 Severity.HIGH -> avatarManager.setState(AvatarState.ALERT)
@@ -58,6 +60,9 @@ class EnvironmentViewModel(
 
     //Boton mi entorno
     fun speakEnviroment(data: EnvironmentData){
+
+        avatarManager.setState(AvatarState.TALKING)
+
         val message = """
         La temperatura actual es ${data.temperature} grados.
         El nivel de humedad es ${data.humidity}.

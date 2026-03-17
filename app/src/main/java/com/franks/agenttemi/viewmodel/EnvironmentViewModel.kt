@@ -28,6 +28,9 @@ class EnvironmentViewModel(
 
     fun getRecommendation(data: EnvironmentData) {
 
+
+        avatarManager.setState(AvatarState.THINKING)
+
         viewModelScope.launch {
             val recommendation = recommendationUseCase.execute(data)
 

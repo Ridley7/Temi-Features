@@ -1,8 +1,9 @@
+import com.franks.agenttemi.domain.model.EnvironmentData
+
 interface AIRepository{
 
     suspend fun getRecommendation(
-        temperature: Float,
-        methane: Float
+        environmentData: EnvironmentData
     ) : String
 
 }

@@ -65,6 +65,6 @@ class SpeechManager (
 
     private fun estimateSpeechDuration(text: String) : Long{
          val words = text.split(" ").size
-        return words * 400L
+        return words * 480L
     }
 }

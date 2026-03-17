@@ -1,7 +1,9 @@
+import com.franks.agenttemi.domain.model.EnvironmentData
+
 class AIRepositoryImplementation (
     private val remoteDataSource : OpenIADataSource
 ):AIRepository {
-    override suspend fun getRecommendation(temperature: Float, methane: Float): String {
-        return remoteDataSource.getRecommendation(temperature, methane)
+    override suspend fun getRecommendation(environmentData: EnvironmentData): String {
+        return remoteDataSource.getRecommendation(environmentData)
     }
 }

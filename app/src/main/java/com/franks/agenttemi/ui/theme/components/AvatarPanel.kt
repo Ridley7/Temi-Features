@@ -18,8 +18,8 @@ fun AvatarPanel(
     val animationRes = when(state){
         AvatarState.IDLE -> R.raw.idle
         AvatarState.ALERT -> R.raw.alert
-        AvatarState.TALKING -> R.raw.alert
-        AvatarState.THINKING -> R.raw.speaker
+        AvatarState.TALKING -> R.raw.speaker
+        AvatarState.THINKING -> R.raw.thinking
     }
 
     val composition by rememberLottieComposition(

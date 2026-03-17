@@ -1,6 +1,7 @@
+import com.franks.agenttemi.domain.model.EnvironmentData
+
 interface OpenIADataSource{
     suspend fun getRecommendation(
-        temperature: Float,
-        methane: Float
+        environmentData: EnvironmentData
     ) : String
 }

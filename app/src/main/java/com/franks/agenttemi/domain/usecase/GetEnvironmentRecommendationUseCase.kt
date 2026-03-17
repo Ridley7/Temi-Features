@@ -14,8 +14,6 @@ class GetEnvironmentRecommendationUseCase(
             )
         } catch (e: HttpException){
 
-            Log.e("OpenAI", "Error: ${e.code()} ${e.message()}")
-
             when(e.code()){
                 429 -> return AIRecommendation(
                     alert = false,

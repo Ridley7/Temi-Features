@@ -56,7 +56,6 @@ class SpeechManager (
                 delay(estimateSpeechDuration(message.text))
                 avatarStateManager.setState(AvatarState.IDLE)
                 onSpeechCompleted?.invoke()
-                Log.e("OpenIA Speech", "Aqui")
             }
 
         }

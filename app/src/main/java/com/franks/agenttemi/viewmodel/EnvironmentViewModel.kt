@@ -61,8 +61,6 @@ class EnvironmentViewModel(
 
             data.luminosity < 450 -> {
 
-                Log.d("Warning", data.luminosity.toString())
-
                 triggerAlert(
                     message = "Los niveles de luz son bajos. Se recomienda encender las luces o abrir ventanas."
                 )
@@ -104,8 +102,6 @@ class EnvironmentViewModel(
 
         viewModelScope.launch {
             val recommendation = recommendationUseCase.execute(data)
-
-            Log.e("Flag OpenIA", recommendation.severity.toString())
 
             //Avatar segun la severidad
             when(recommendation.severity){

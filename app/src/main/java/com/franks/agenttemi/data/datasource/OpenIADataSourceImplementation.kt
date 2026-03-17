@@ -71,8 +71,6 @@ class OpenIADataSourceImplementation (
 
         }catch (e: Exception){
 
-            Log.d("OPENAI", e.message.toString())
-
             AIRecommendation(
                 alert = false,
                 severity = Severity.LOW,

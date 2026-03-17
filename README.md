@@ -1,5 +1,7 @@
 # 🌱 Prototipo de Aplicación Ambiental
 
+![Pantalla principal del prototipo](/documentation/screen_app.jpeg)
+
 ## 📱 Descripción general
 
 Este proyecto consiste en una aplicación Android desarrollada en **Kotlin con Jetpack Compose**, cuyo objetivo es monitorizar condiciones ambientales en tiempo real y ofrecer recomendaciones inteligentes al usuario.

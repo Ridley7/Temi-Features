@@ -4,6 +4,6 @@ interface AIRepository{
 
     suspend fun getRecommendation(
         environmentData: EnvironmentData
-    ) : String
+    ) : AIRecommendation
 
 }

@@ -6,7 +6,7 @@ class GetEnvironmentRecommendationUseCase(
     private val aiRepository: AIRepository
 ) {
 
-    suspend fun execute(data: EnvironmentData): String {
+    suspend fun execute(data: EnvironmentData): AIRecommendation {
 
         return try {
             aiRepository.getRecommendation(
@@ -17,8 +17,16 @@ class GetEnvironmentRecommendationUseCase(
             Log.e("OpenAI", "Error: ${e.code()} ${e.message()}")
 
             when(e.code()){
-                429 -> return "Has hecho demasiadas consultas"
-                else -> return "Error consultando a la IA"
+                429 -> return AIRecommendation(
+                    alert = false,
+                    severity = Severity.LOW,
+                    message = "Has hecho demasiadas consultas"
+                )
+                else -> return AIRecommendation(
+                    alert = false,
+                    severity = Severity.LOW,
+                    message = "Error consultando a la IA"
+                )
             }
 
         }

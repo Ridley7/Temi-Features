@@ -34,11 +34,22 @@ class EnvironmentViewModel(
         viewModelScope.launch {
             val recommendation = recommendationUseCase.execute(data)
 
+            //Avatar segun la severidad
+            when(recommendation.severity){
+                Severity.HIGH -> avatarManager.setState(AvatarState.ALERT)
+                Severity.MEDIUM -> avatarManager.setState(AvatarState.TALKING)
+                Severity.LOW -> avatarManager.setState(AvatarState.TALKING)
+            }
+
             attentionManager.requestAttention(
                 AttentionEvent(
                     source = AttentionSource.SYSTEM,
-                    message = recommendation,
-                    priority = 5
+                    message = recommendation.message,
+                    priority = when(recommendation.severity){
+                        Severity.HIGH -> 10
+                        Severity.MEDIUM -> 7
+                        Severity.LOW -> 5
+                    }
                 )
             )
         }

@@ -26,6 +26,7 @@ fun EnvironmentScreen(
         Row(
             modifier = modifier
                 .fillMaxSize()
+                .padding(WindowInsets.systemBars.asPaddingValues())
                 .padding(16.dp)
         ) {
 

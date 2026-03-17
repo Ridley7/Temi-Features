@@ -16,6 +16,7 @@ fun ControlButtonsPanel(
     onSpeakEnvironment: () -> Unit
 ){
     Column{
+
         Button(
             onClick = { onSpeakEnvironment() },
             modifier = Modifier.fillMaxWidth()
@@ -31,7 +32,5 @@ fun ControlButtonsPanel(
         ){
             Text("Mis recomendaciones")
         }
-
-
     }
 }

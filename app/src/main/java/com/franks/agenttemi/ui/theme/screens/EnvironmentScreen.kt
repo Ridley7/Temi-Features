@@ -21,6 +21,7 @@ fun EnvironmentScreen(
 
     val environment by viewModel.environment.collectAsState()
     val avatarState by viewModel.avatarState.collectAsState()
+    val sentinel by viewModel.sentinelModel.collectAsState()
 
     environment?.let { data ->
         Row(
@@ -35,7 +36,9 @@ fun EnvironmentScreen(
                 state = avatarState,
                 modifier = Modifier
                     .weight(3f)
-                    .fillMaxHeight()
+                    .fillMaxHeight(),
+                sentinelMode = sentinel,
+                onSentinelChange = {viewModel.toggleSentinelMode(sentinel)}
             )
 
             Spacer(modifier = Modifier.width(16.dp))

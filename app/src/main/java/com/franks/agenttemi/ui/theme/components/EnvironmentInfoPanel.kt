@@ -27,56 +27,56 @@ fun EnvironmentInfoPanel(
 
         SensorItem(
             label = "Humedad",
-            value = "${environment.temperature} %"
+            value = "${environment.humidity} %"
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         SensorItem(
             label = "Luminosidad",
-            value = "${environment.temperature} lx"
+            value = "${environment.luminosity} lx"
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         SensorItem(
             label = "Sonido",
-            value = "${environment.temperature} dB"
+            value = "${environment.sound} dB"
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         SensorItem(
             label = "Gases inflamables",
-            value = "${environment.temperature} ppm"
+            value = "${environment.flammablesGas} ppm"
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         SensorItem(
             label = "Alcohol",
-            value = "${environment.temperature} ppm"
+            value = "${environment.alcohol} ppm"
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         SensorItem(
             label = "Monóxido de Carbono CO",
-            value = "${environment.temperature} ppm"
+            value = "${environment.carbonMonoxide} ppm"
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         SensorItem(
             label = "Humo",
-            value = "${environment.temperature} ppm"
+            value = "${environment.smoke} ppm"
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         SensorItem(
             label = "Vapores volátiles",
-            value = "${environment.temperature} ppm"
+            value = "${environment.volatileVapors} ppm"
         )
 
 

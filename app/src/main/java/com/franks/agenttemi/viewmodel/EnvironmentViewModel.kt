@@ -1,12 +1,14 @@
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.franks.agenttemi.domain.model.enums.AvatarState
 import com.franks.agenttemi.domain.model.EnvironmentData
 import com.franks.agenttemi.domain.model.enums.SpeechPriority
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -24,10 +26,79 @@ class EnvironmentViewModel(
             SharingStarted.WhileSubscribed(5000),
             null
         )
+    private val _sentinelMode = MutableStateFlow(false)
+    val sentinelModel: StateFlow<Boolean> = _sentinelMode
+
+    init {
+        viewModelScope.launch {
+
+            combine(
+                observeEnvironmentUseCase(),
+                sentinelModel
+            ){
+                environment,
+                    isActive -> Pair(environment, isActive)
+            }
+                .collect{
+                    (environment, isActive) ->
+
+                    if(!isActive || environment == null ) return@collect
+
+                    checkEnvironmentAlerts(environment)
+                }
+        }
+    }
+
+    private fun checkEnvironmentAlerts(data: EnvironmentData) {
+
+        when {
+
+            data.temperature < 10 -> {
+                triggerAlert(
+                    message = "La temperatura es muy baja. Se recomienda encender la calefacción."
+                )
+            }
+
+            data.luminosity < 450 -> {
+
+                Log.d("Warning", data.luminosity.toString())
+
+                triggerAlert(
+                    message = "Los niveles de luz son bajos. Se recomienda encender las luces o abrir ventanas."
+                )
+            }
+
+            data.carbonMonoxide > 800 -> {
+                triggerAlert(
+                    message = "Atención. Niveles altos de monóxido de carbono detectados."
+                )
+            }
+        }
+    }
+
+    private val lastAlertTime = mutableMapOf<String, Long>()
+    private val ALERT_COOLDOWN = 15000L
+
+    private fun triggerAlert(message: String) {
+
+        val now = System.currentTimeMillis()
+        val lastTime = lastAlertTime[message] ?: 0L
+
+        if(now - lastTime < ALERT_COOLDOWN) return
+
+        avatarManager.setState(AvatarState.ALERT)
+
+        attentionManager.requestAttention(
+            AttentionEvent(
+                source = AttentionSource.ALERT,
+                message = message,
+                priority = 8
+            )
+        )
+    }
 
 
     fun getRecommendation(data: EnvironmentData) {
-
 
         avatarManager.setState(AvatarState.THINKING)
 
@@ -75,6 +146,10 @@ class EnvironmentViewModel(
                 priority = 5
             )
         )
+    }
+
+    fun toggleSentinelMode(sentinel: Boolean){
+        _sentinelMode.value = !_sentinelMode.value
     }
 }
 

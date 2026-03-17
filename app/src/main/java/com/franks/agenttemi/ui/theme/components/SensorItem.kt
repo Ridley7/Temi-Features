@@ -20,6 +20,7 @@ fun SensorItem(
     ){
         Row (
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(12.dp),
 
             horizontalArrangement = Arrangement.SpaceBetween

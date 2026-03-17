@@ -46,7 +46,7 @@ class EnvironmentViewModel(
     fun speakEnviroment(data: EnvironmentData){
         val message = """
         La temperatura actual es ${data.temperature} grados.
-        El nivel de metano es ${data.methane}.
+        El nivel de humedad es ${data.humidity}.
     """.trimIndent()
 
         attentionManager.requestAttention(

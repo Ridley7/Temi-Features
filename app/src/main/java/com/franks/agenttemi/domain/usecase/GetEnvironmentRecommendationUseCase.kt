@@ -11,7 +11,7 @@ class GetEnvironmentRecommendationUseCase(
         return try {
             aiRepository.getRecommendation(
                 data.temperature,
-                data.methane
+                data.humidity
             )
         } catch (e: HttpException){
 

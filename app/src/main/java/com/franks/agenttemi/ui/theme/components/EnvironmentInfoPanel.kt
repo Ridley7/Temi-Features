@@ -19,8 +19,59 @@ fun EnvironmentInfoPanel(
         Spacer(modifier = Modifier.height(8.dp))
 
         SensorItem(
-            label = "Metano",
-            value = "${environment.methane} ppm"
+            label = "Humedad",
+            value = "${environment.temperature} %"
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        SensorItem(
+            label = "Luminosidad",
+            value = "${environment.temperature} lx"
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        SensorItem(
+            label = "Sonido",
+            value = "${environment.temperature} dB"
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        SensorItem(
+            label = "Gases inflamables",
+            value = "${environment.temperature} ppm"
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        SensorItem(
+            label = "Alcohol",
+            value = "${environment.temperature} ppm"
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        SensorItem(
+            label = "Monóxido de Carbono CO",
+            value = "${environment.temperature} ppm"
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        SensorItem(
+            label = "Humo",
+            value = "${environment.temperature} ppm"
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        SensorItem(
+            label = "Vapores volátiles",
+            value = "${environment.temperature} ppm"
+        )
+
+
     }
 }

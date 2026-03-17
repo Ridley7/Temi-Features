@@ -12,7 +12,14 @@ class MockEnvironmentDataSource : EnvironmentDataSource{
         while(true){
              val data = EnvironmentData(
                  temperature = (18..25).random().toFloat(),
-                 methane = (400..900).random().toFloat(),
+                 humidity = (400..900).random().toFloat(),
+                 luminosity = (400..900).random().toFloat(),
+                 sound = (400..900).random().toFloat(),
+                 flammablesGas = (400..900).random().toFloat(),
+                 alcohol = (400..900).random().toFloat(),
+                 carbonMonoxide = (400..900).random().toFloat(),
+                 smoke = (400..900).random().toFloat(),
+                 volatileVapors = (400..900).random().toFloat(),
              )
 
             emit(data)
